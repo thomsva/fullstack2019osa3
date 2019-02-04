@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 
 let persons = [
-
-
   {
     "name": "Arto Hellas",
     "number": "040-123456",
@@ -19,8 +17,6 @@ let persons = [
     "number": "040-123456",
     "id": 4
   }
-
-
 ]
 
 app.get('/api/persons', (req, res) => {
