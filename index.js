@@ -23,6 +23,17 @@ app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  console.log('requested person', id)
+  const person = persons.find(person => person.id === id)
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
+})
+
 app.get('/info', (req, res) => {
   res.send('<p>Puhelinluettelossa ' + persons.length + ' henkilön tiedot </p>'
     + Date())
