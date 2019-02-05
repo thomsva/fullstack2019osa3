@@ -40,16 +40,21 @@ app.get('/test', (req, res) => {
 app.get('/test2', (req, res) => {
   res.sendfile(__dirname + '/build/index.html') // 
 })
-app.get('/hello', (req, res) => {
-  res.sendFile('hello.html', { root: './build' })
+
+app.get('/test3', (req, res) => {
+  res.sendFile('index.html', { root: './build' }) // 404 Cannot GET /test3
 })
 
-app.get('/helloi', (req, res) => {
-  res.sendfile(__dirname + '/build/hello.html')
+app.get('/hello', (req, res) => {
+  res.sendFile('hello.html', { root: './build' }) //200 ok
+})
+
+app.get('/hello2', (req, res) => {
+  res.sendfile(__dirname + '/build/hello.html') // 404 Cannot GET /hello2
 })
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: './build' })
+  res.sendfile(__dirname + '/build/index.html')
 })
 
 app.get('/api/persons', (req, res) => {
