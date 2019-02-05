@@ -41,11 +41,11 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/helloi', (req, res) => {
-  res.sendfile(path.resolve('hello.html'))
+  res.sendfile(__dirname + '/build/hello.html'))
 })
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html')
+  res.sendFile('index.html', { root: './build' })
 })
 
 app.get('/api/persons', (req, res) => {
