@@ -36,6 +36,10 @@ let persons = [
 app.get('/test', (req, res) => {
   res.sendfile(path.resolve('build/index.html'))
 })
+
+app.get('/test2', (req, res) => {
+  res.sendfile(__dirname + 'build/index.html')
+})
 app.get('/hello', (req, res) => {
   res.sendFile('hello.html', { root: './build' })
 })
