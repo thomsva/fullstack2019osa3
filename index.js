@@ -46,9 +46,19 @@ app.post('/api/persons', (request, response) => {
   const body = request.body
   console.log(body)
 
-  if (body.name === undefined || body.number === undefined) {
+  if (body.name === undefined) {
     return response.status(400).json({
-      error: 'name or number missing'
+      error: 'name missing'
+    })
+  }
+  if (body.number === undefined) {
+    return response.status(400).json({
+      error: 'number missing'
+    })
+  }
+  if (persons.filter(person => person.name === body.name).length !== 0) {
+    return response.status(400).json({
+      error: 'name already exists'
     })
   }
 
