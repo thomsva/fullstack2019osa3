@@ -4,12 +4,16 @@
   "builds": [
     {
       "src": "*.js",
-      "use": "@now/node"
+      "use": "@now/node-server"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/redirect",
+      "dest": "http://www.dilbert.com"
+    }
+    {
+      "src": "/.*",
       "dest": "index.js"
     }
   ]
