@@ -34,11 +34,11 @@ let persons = [
 ]
 
 app.get('/test', (req, res) => {
-  res.sendfile(path.resolve('build/index.html'))
+  res.sendfile(path.resolve('/build/index.html')) //500 internal error
 })
 
 app.get('/test2', (req, res) => {
-  res.sendfile(__dirname + 'build/index.html')
+  res.sendfile(__dirname + '/build/index.html') // 
 })
 app.get('/hello', (req, res) => {
   res.sendFile('hello.html', { root: './build' })
