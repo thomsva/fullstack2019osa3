@@ -34,11 +34,11 @@ let persons = [
 ]
 
 app.get('/test', (req, res) => {
-  res.sendFile('/build/index.html')
+  res.sendFile('/index.html')
 })
 
 app.get('/', (req, res) => {
-  res.sendFile('/build/index.html')
+  res.sendFile('index.html')
 })
 
 app.get('/api/persons', (req, res) => {
