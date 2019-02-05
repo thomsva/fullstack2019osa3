@@ -36,6 +36,9 @@ let persons = [
 app.get('/test', (req, res) => {
   res.sendFile('index')
 })
+app.get('/hello', (req, res) => {
+  res.sendFile('hello.html')
+})
 
 app.get('/', (req, res) => {
   res.sendFile('index.html')
