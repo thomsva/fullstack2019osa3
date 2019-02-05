@@ -33,7 +33,11 @@ let persons = [
   }
 ]
 
-app.get('/', (req, res) => res.sendFile(/build/index.html))
+
+
+app.get('/', (req, res) => {
+  res.sendFile(/build/index.html)
+})
 
 app.get('/api/persons', (req, res) => {
   res.json(persons)
