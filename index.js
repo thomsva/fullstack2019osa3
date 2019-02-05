@@ -38,11 +38,11 @@ app.get('/test', (req, res) => {
 })
 
 app.get('/test2', (req, res) => {
-  res.sendfile(__dirname + '/build/index.html') // 
+  res.sendfile(__dirname + '/build/index.html') // 404 js files not found
 })
 
 app.get('/test3', (req, res) => {
-  res.sendFile('index.html', { root: './build' }) // 404 Cannot GET /test3
+  res.sendFile('index.html', { root: './build' }) // 404 js files not found
 })
 
 app.get('/hello', (req, res) => {
@@ -50,11 +50,11 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/hello2', (req, res) => {
-  res.sendfile(__dirname + '/build/hello.html') // 404 Cannot GET /hello2
+  res.sendfile(__dirname + '/build/hello.html') // 200 ok
 })
 
 app.get('/', (req, res) => {
-  res.sendfile(__dirname + '/build/index.html')
+  res.sendfile(__dirname + '/build/index.html') // 404 js files not found
 })
 
 app.get('/api/persons', (req, res) => {
