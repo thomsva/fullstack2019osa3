@@ -5,6 +5,10 @@
     {
       "src": "*.js",
       "use": "@now/node-server"
+    },
+    {
+      "src": "build/*.html",
+      "use": "@now/static"
     }
   ],
   "routes": [
