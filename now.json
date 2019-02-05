@@ -3,17 +3,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "build/.*",
-      "use": "@now/static"
-    },
-    {
-      "src": "/index.js",
+      "src": "*",
       "use": "@now/node-server"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "*",
       "dest": "index.js"
     }
   ]
