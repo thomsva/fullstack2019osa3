@@ -5,8 +5,10 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 
-app.use(express.static(__dirname + '/build'))
+app.use(express.static(__dirname + '/build(.*)'))
 
+
+app.use('/static/js', express.static(path.join(__dirname, 'build/static/js')));
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -34,15 +36,13 @@ let persons = [
   }
 ]
 
-app.get('/test', (req, res) => {
-  res.sendfile(path.resolve('/build/index.html')) //500 internal error
-})
 
-app.get('/test2', (req, res) => {
+
+app.get('/test', (req, res) => {
   res.sendfile(__dirname + '/build/index.html') // 404 js files not found
 })
 
-app.get('/test3', (req, res) => {
+app.get('/test2', (req, res) => {
   res.sendFile('index.html', { root: './build' }) // 404 js files not found
 })
 
