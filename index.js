@@ -34,10 +34,13 @@ let persons = [
 ]
 
 app.get('/test', (req, res) => {
-  res.sendFile('index')
+  res.sendFile(path.resolve('build/index.html'))
 })
 app.get('/hello', (req, res) => {
-  res.sendFile('hello.html')
+  res.sendFile(path.resolve('build/hello.html'))
+})
+app.get('/helloi', (req, res) => {
+  res.sendFile(path.resolve('hello.html'))
 })
 
 app.get('/', (req, res) => {
