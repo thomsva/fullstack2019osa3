@@ -5,7 +5,13 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 const morgan = require('morgan')
-app.use(morgan('tiny'))
+
+
+morgan.token('json-data', (req, res) => JSON.stringify(req.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json-data'))
+
+
+
 
 let persons = [
   {
