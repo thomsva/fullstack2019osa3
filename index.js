@@ -41,7 +41,7 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/helloi', (req, res) => {
-  res.sendfile(__dirname + '/build/hello.html'))
+  res.sendfile(__dirname + '/build/hello.html')
 })
 
 app.get('/', (req, res) => {
