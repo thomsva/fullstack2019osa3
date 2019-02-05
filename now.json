@@ -11,7 +11,7 @@
     {
       "src": "/redirect",
       "dest": "http://www.dilbert.com"
-    }
+    },
     {
       "src": "/.*",
       "dest": "index.js"
