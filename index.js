@@ -15,6 +15,11 @@ const logger = (request, response, next) => {
 app.use(cors())
 
 app.use(express.static('build'))
+app.use(express.static('build/static/css'))
+app.use(express.static('build/static/js'))
+app.use(express.static(__dirname + '/build'))
+app.use(express.static(__dirname + '/build/static/css'))
+app.use(express.static(__dirname + '/build/static/js'))
 
 app.use(bodyParser.json())
 
