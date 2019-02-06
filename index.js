@@ -5,13 +5,20 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 
-app.use(express.static(__dirname + '/build(.*)'))
-
-
-app.use('/static/js', express.static(path.join(__dirname, 'build/static/js')));
-
+const logger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
 app.use(cors())
+
+app.use(express.static('build'))
+
 app.use(bodyParser.json())
+
+
 morgan.token('json-data', (req, res) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json-data'))
 
