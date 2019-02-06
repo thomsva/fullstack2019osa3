@@ -26,23 +26,6 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :j
 
 
 
-let persons = [
-  {
-    "name": "Arto Hellas",
-    "number": "040-123456",
-    "id": 1
-  },
-  {
-    "name": "Arto Järvinen",
-    "number": "040-123456",
-    "id": 3
-  },
-  {
-    "name": "Lea Kutvonen",
-    "number": "040-123456",
-    "id": 4
-  }
-]
 
 
 
@@ -55,9 +38,8 @@ app.get('/', (req, res) => {
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons)
-    mongoose.connection.close()
   })
-
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -67,19 +49,17 @@ app.get('/api/persons/:id', (request, response) => {
     .then(person => {
       response.json(person.toJSON())
     })
-    .catch(error => {
-      console.log(error);
-      response.status(404).end()
-      mongoose.connection.close()
-    })
+    .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
 
-  persons = persons.filter(person => person.id !== id)
-  response.status(204).end()
-});
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+})
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
@@ -108,18 +88,27 @@ app.post('/api/persons', (request, response) => {
     number: body.number,
   })
 
-  person.save().then(savedPerson => {
-    response.json(savedPerson.toJSON)
-    mongoose.connection.close
-  })
-
-
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson.toJSON)
+    })
+    .catch(error => next(error))
 })
 
 app.get('/info', (req, res) => {
   res.send('<p>Puhelinluettelossa ' + persons.length + ' henkilön tiedot </p>'
     + Date())
 })
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+  next(error)
+}
+
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT
