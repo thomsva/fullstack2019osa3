@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+# dotenv 
+.env
 
 # misc
 .DS_Store

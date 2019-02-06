@@ -10,18 +10,13 @@ const password = process.argv[2]
 const url =
   `mongodb://aku:${password}@ds125125.mlab.com:25125/fullstack2019persons`
 
-
 mongoose.connect(url, { useNewUrlParser: true })
-
-
 
 const personSchema = new mongoose.Schema({
   name: String,
   number: String,
   id: Number,
 })
-
-
 
 const Person = mongoose.model('Person', personSchema)
 

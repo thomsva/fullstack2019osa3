@@ -1,9 +1,11 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const Person = require('./models/person')
 
 const logger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -44,46 +46,39 @@ let persons = [
 
 
 
-app.get('/test', (req, res) => {
-  res.sendfile(__dirname + '/build/index.html') // 404 js files not found
-})
-
-app.get('/test2', (req, res) => {
-  res.sendFile('index.html', { root: './build' }) // 404 js files not found
-})
-
-app.get('/hello', (req, res) => {
-  res.sendFile('hello.html', { root: './build' }) //200 ok
-})
-
-app.get('/hello2', (req, res) => {
-  res.sendfile(__dirname + '/build/hello.html') // 200 ok
-})
 
 app.get('/', (req, res) => {
-  res.sendfile(__dirname + '/build/index.html') // 404 js files not found
+  res.sendfile(__dirname + '/build/index.html')
 })
 
-app.get('/api/persons', (req, res) => {
-  res.json(persons)
-})
 
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons => {
+    response.json(persons)
+    mongoose.connection.close()
+  })
+
+})
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
+  const id = request.params.id
   console.log('requested person', id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  Person.findById(id)
+    .then(person => {
+      response.json(person.toJSON())
+    })
+    .catch(error => {
+      console.log(error);
+      response.status(404).end()
+      mongoose.connection.close()
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter(person => person.id !== id);
-  response.status(204).end();
+  const id = request.params.id
+
+  persons = persons.filter(person => person.id !== id)
+  response.status(204).end()
 });
 
 app.post('/api/persons', (request, response) => {
@@ -100,21 +95,25 @@ app.post('/api/persons', (request, response) => {
       error: 'number missing'
     })
   }
+  /*
   if (persons.filter(person => person.name === body.name).length !== 0) {
     return response.status(400).json({
       error: 'name already exists'
     })
   }
+  */
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: Math.floor(Math.random() * 10000)
-  }
+  })
 
-  persons = persons.concat(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson.toJSON)
+    mongoose.connection.close
+  })
 
-  response.json(person)
+
 })
 
 app.get('/info', (req, res) => {
@@ -123,7 +122,7 @@ app.get('/info', (req, res) => {
 })
 
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
