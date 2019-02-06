@@ -1,6 +1,7 @@
 {
   "name": "<fullstack2019osa3>",
   "version": 2,
+  "public": true,
   "builds": [
     {
       "src": "index.js",
