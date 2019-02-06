@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-
+const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -20,6 +20,8 @@ app.use(express.static('build/static/js'))
 app.use(express.static(__dirname + '/build'))
 app.use(express.static(__dirname + '/build/static/css'))
 app.use(express.static(__dirname + '/build/static/js'))
+app.use(express.static(path.join(__dirname, 'build')))
+
 
 app.use(bodyParser.json())
 
