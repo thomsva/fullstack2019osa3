@@ -1,17 +1,4 @@
 {
   "name": "<fullstack2019osa3>",
-  "version": 2,
-  "public": true,
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@now/node-server"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "index.js"
-    }
-  ]
+  "version": 2
 }
