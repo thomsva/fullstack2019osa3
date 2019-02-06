@@ -12,25 +12,9 @@ const logger = (request, response, next) => {
   console.log('---')
   next()
 }
+
 app.use(cors())
-
 app.use(express.static('build'))
-app.use(express.static('build/static'))
-app.use(express.static('build/static/css'))
-app.use(express.static('build/static/js'))
-app.use(express.static(__dirname + '/build'))
-app.use(express.static(__dirname + '/build/static'))
-app.use(express.static(__dirname + '/build/static/css'))
-app.use(express.static(__dirname + '/build/static/js'))
-app.use(express.static(path.join(__dirname, 'build')))
-app.use(express.static(path.join(__dirname, 'build/static')))
-app.use(express.static(path.join(__dirname, 'build/static/css')))
-app.use(express.static(path.join(__dirname, 'build/static/js')))
-app.use(express.static(path.join(__dirname, '/build')))
-app.use(express.static(path.join(__dirname, '/build/static')))
-app.use(express.static(path.join(__dirname, '/build/static/css')))
-app.use(express.static(path.join(__dirname, '/build/static/js')))
-
 app.use(bodyParser.json())
 
 
@@ -83,6 +67,7 @@ app.get('/', (req, res) => {
 app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
+
 
 app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)

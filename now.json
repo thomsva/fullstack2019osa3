@@ -1,17 +1,28 @@
 {
   "name": "<fullstack2019osa3>",
   "version": 2,
-  "public": true,
   "builds": [
     {
       "src": "index.js",
       "use": "@now/node-server"
+    },
+    {
+      "src": "/static/*",
+      "use": "@now/static"
+    },
+    {
+      "src": "*.html",
+      "use": "@now/static"
+    },
+    {
+      "src": "/",
+      "use": "@now/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "src": "/api/(.*)",
+      "dest": "/index.js"
     }
   ]
 }
