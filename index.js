@@ -1,4 +1,6 @@
-require('dotenv').config()  //environment variables
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+} //environment variables
 const express = require('express')
 const app = express()
 const path = require('path')
@@ -23,14 +25,14 @@ app.get('/', (req, res) => {
   res.sendfile(__dirname + '/build/index.html')
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(persons => {
     response.json(persons)
   })
     .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
   console.log('requested person', id)
   Person.findById(id)
@@ -48,7 +50,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
   console.log(body)
 
@@ -95,7 +97,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   Person.find({})
     .then(persons => {
       response.send('<p>Puhelinluettelossa '
@@ -112,7 +114,10 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message)
   if (error.name === 'CastError' && error.kind == 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
+
   next(error)
 }
 
