@@ -95,10 +95,14 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-
-app.get('/info', (req, res) => {
-  res.send('<p>Puhelinluettelossa ' + persons.length + ' henkilön tiedot </p>'
-    + Date())
+app.get('/info', (request, response) => {
+  Person.find({})
+    .then(persons => {
+      response.send('<p>Puhelinluettelossa '
+        + persons.length + ' henkilön tiedot </p>'
+        + Date())
+    })
+    .catch(error => next(error))
 })
 
 
