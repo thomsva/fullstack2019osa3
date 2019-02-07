@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config()  //environment variables
 const express = require('express')
 const app = express()
 const path = require('path')
@@ -7,33 +7,21 @@ const cors = require('cors')
 const morgan = require('morgan')
 const Person = require('./models/person')
 
-const logger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
+
+//middleware
 
 app.use(cors())
-app.use(express.static('build'))
+app.use(express.static('build'))  //directory to look for static files
 app.use(bodyParser.json())
-
-
 morgan.token('json-data', (req, res) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json-data'))
 
 
-
-
-
-
-
+//routes
 
 app.get('/', (req, res) => {
   res.sendfile(__dirname + '/build/index.html')
 })
-
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
@@ -51,7 +39,6 @@ app.get('/api/persons/:id', (request, response) => {
     })
     .catch(error => next(error))
 })
-
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
@@ -95,10 +82,27 @@ app.post('/api/persons', (request, response) => {
     .catch(error => next(error))
 })
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson.toJSON())
+    })
+    .catch(error => next(error))
+})
+
+
 app.get('/info', (req, res) => {
   res.send('<p>Puhelinluettelossa ' + persons.length + ' henkilön tiedot </p>'
     + Date())
 })
+
+
+//error handler
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
