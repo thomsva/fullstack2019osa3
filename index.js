@@ -3,7 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 } //environment variables
 const express = require('express')
 const app = express()
-const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')

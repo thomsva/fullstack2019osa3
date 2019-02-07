@@ -40,7 +40,7 @@ if (process.argv.length === 5) {
   })
   console.log('lisätään ' + person.name + ' numero ' + person.number + ' luetteloon')
   person.save().then(response => {
-    console.log('lisätty!');
-    mongoose.connection.close();
+    console.log('lisätty!')
+    mongoose.connection.close()
   })
 }
